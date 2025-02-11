@@ -74,11 +74,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return response()->json(['user' => $request->user()]);
 });
 
-// Task route for authenticated users
-// Tasks route for authenticated users
-Route::middleware('auth:sanctum')->get('/tasks', [TaskController::class, 'index']);
 
-
+// for task api
+Route::middleware('auth:sanctum')->prefix('tasks')->group(function () {
+    Route::get('/', [TaskController::class, 'index']);        // Fetch tasks
+    Route::post('/', [TaskController::class, 'store']);       // Create task
+    Route::get('{id}', [TaskController::class, 'show']);      // Get a single task
+    Route::put('{id}', [TaskController::class, 'update']);    // Update a task
+    Route::delete('{id}', [TaskController::class, 'destroy']); // Delete a task
+});
 
 
 
